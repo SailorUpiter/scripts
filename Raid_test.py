@@ -1,20 +1,12 @@
 import subprocess
+from create_file import create_conf
+from disk import *
 
+block = [4, 8, 16, 64, 128, 4096]
+queue = [1, 4, 8, 16, 32, 64, 128]
+threads = [1, 2, 4]
 stripsize = ['8', '16', '32', '64', '128', '256', '512', '1024']
 
-def info_raid(self):
-    for size in stripsize:
-        create = subprocess.Popen(['hpssacli', 'ctrl', 'slot=0', 'create', 'type=ld', 'drives=1I:1:3', 'raid=0', 'stripsize='+size, 'ssdoverprovisioningoptimization=off' ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT)
-        stdout,stderr = create.communicate()
-        print(stdout)
-        print(create)
+#generate configs
+create_conf(block, threads, queue)
 
-        delete = subprocess.Popen(['hpssacli', 'controller', 'slot=0', 'array', 'B', 'delete', 'forced' ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT)
-        stdout,stderr = delete.communicate()
-        print(stdout)
-
-info_raid(stripsize)

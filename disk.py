@@ -1,5 +1,20 @@
 import subprocess
 
+def info_raid(self):
+        create = subprocess.Popen(['hpssacli', 'ctrl', 'slot=0', 'create', 'type=ld', 'drives=1I:1:3', 'raid=0', 'stripsize='+size, 'ssdoverprovisioningoptimization=off' ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT)
+        stdout,stderr = create.communicate()
+        print(stdout)
+        print(create)
+
+def del_rais(self):
+        delete = subprocess.Popen(['hpssacli', 'controller', 'slot=0', 'array', 'B', 'delete', 'forced' ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT)
+        stdout,stderr = delete.communicate()
+        print(stdout) 
+
 def create_fs(self):
         create = subprocess.Popen(['mkfs.ext4', '/dev/sdb' ],
                 stdout=subprocess.PIPE,
@@ -23,8 +38,3 @@ def wipe_fs(self):
         stdout,stderr = wipefs.communicate()
         print(stdout)
         print(stderr)
-
-create_fs(1)
-mount_disk(1)
-umount_disk(1)
-wipe_fs(1)
