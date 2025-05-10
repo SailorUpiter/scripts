@@ -1,27 +1,28 @@
 import subprocess
 
-def info_raid(self):
-        create = subprocess.Popen(['hpssacli', 'ctrl', 'slot=0', 'create', 'type=ld', 'drives=1I:1:3', 'raid=0', 'stripsize='+size, 'ssdoverprovisioningoptimization=off' ],
+def cr_raid(self):
+        create_raid = subprocess.Popen(['hpssacli', 'ctrl', 'slot=0', 'create', 'type=ld', 'drives=1I:1:3', 'raid=0', 'stripsize='+size, 'ssdoverprovisioningoptimization=off' ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT)
-        stdout,stderr = create.communicate()
-        print(stdout)
-        print(create)
+        stdout,stderr = create_raid.communicate()
+        print('sucsess' + stdout)
+        print('error' + stderr)
 
-def del_rais(self):
-        delete = subprocess.Popen(['hpssacli', 'controller', 'slot=0', 'array', 'B', 'delete', 'forced' ],
+def del_raid(self):
+        delete_raid = subprocess.Popen(['hpssacli', 'controller', 'slot=0', 'array', 'B', 'delete', 'forced' ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT)
-        stdout,stderr = delete.communicate()
-        print(stdout) 
+        stdout,stderr = delete_raid.communicate()
+        print('sucsess' + stdout)
+        print('error' + stderr) 
 
 def create_fs(self):
-        create = subprocess.Popen(['mkfs.ext4', '/dev/sdb' ],
+        create_fs = subprocess.Popen(['mkfs.ext4', '/dev/sdb' ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT)
-        stdout,stderr = create.communicate()
-        print(stdout)
-        print(stderr)
+        stdout,stderr = create_fs.communicate()
+        print('sucsess' + stdout)
+        print('error' + stderr)
 
 def mount_disk(self):
     mount = subprocess.Popen(['mount', '/dev/sdb', '/mnt/pve/test'])
@@ -36,5 +37,5 @@ def wipe_fs(self):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT)
         stdout,stderr = wipefs.communicate()
-        print(stdout)
-        print(stderr)
+        print('sucsess' + stdout)
+        print('error' + stderr)

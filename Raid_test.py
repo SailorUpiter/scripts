@@ -1,12 +1,15 @@
-import subprocess
+import subprocess, os
 from create_file import create_conf
 from disk import *
 
-block = [4, 8, 16, 64, 128, 4096]
-queue = [1, 4, 8, 16, 32, 64, 128]
-threads = [1, 2, 4]
 stripsize = ['8', '16', '32', '64', '128', '256', '512', '1024']
 
 #generate configs
-create_conf(block, threads, queue)
+create_conf(test_type, block, threads, queue)
 
+# Add directory to output files
+
+for stripe in stripsize:
+        cr_raid(stripe)
+        create_fs()
+        mount_disk()

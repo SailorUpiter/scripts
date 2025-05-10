@@ -1,8 +1,19 @@
-block = [4, 8, 16, 64, 128, 4096]
-queue = [1, 4, 8, 16, 32, 64, 128]
-threads = [1, 2, 4]
+import os  
+
+
+block = [4, 8, 4096]
+queue = [1, 32,128]
+threads = [1, 4]
 test_type = ['read', 'randread', 'write', 'randwrite' ]
-stactic_param = "\nruntime=20 \ndirect=1 \nfilename=/mnt/pve/test/write \nioengine=libaio"
+runtime = '10'
+file_path = '/mnt/pve/test/write'
+file_size = '1G'
+stactic_param = "\nruntime=" + str(runtime) +" \ndirect=1 \nfilename=" + file_path + " \nioengine=libaio" + " \nsize=l" + file_size
+# Create directory for config file
+if not os.path.isdir("fioconfig"):
+     os.mkdir("fioconfig")
+
+#Func to generate FIO config files
 def create_conf(*args):
     b=4
     q=1
@@ -30,5 +41,3 @@ def create_conf(*args):
                         my_file.write( "[test] \nrw=" + str(ty) + "\nname=" + str(testname) +  " \nblocksize=" + str(b) + "k \niodepth=" + str(q) + "\nnumjobs=" + str(t) + stactic_param )
                         my_file.close()
                         print("file add")
-
-#create_conf(block, threads)
